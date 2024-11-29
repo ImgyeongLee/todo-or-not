@@ -55,28 +55,28 @@ class TodoRun:
         os.environ["TODOON_DUPLICATE_CLOSED_ISSUES"] = str(self.number_of_closed_issues)
 
         if self.push_github_env_vars:
-            os.system(f'echo TODOON_STATUS={"finished"} >> $GITHUB_ENV')
-            os.system(f'echo TODOON_PROGRESS={"100.0"} >> $GITHUB_ENV')
+            os.system(f'echo TODOON_STATUS={"finished"} >> \"$GITHUB_ENV\"')
+            os.system(f'echo TODOON_PROGRESS={"100.0"} >> \"$GITHUB_ENV\"')
             os.system(
-                f"echo TODOON_FILES_SCANNED={str(self.number_of_files_scanned)} >> $GITHUB_ENV"
+                f"echo TODOON_FILES_SCANNED={str(self.number_of_files_scanned)} >> \"$GITHUB_ENV\""
             )
             os.system(
-                f"echo TODOON_TODOS_FOUND={str(self.number_of_todo)} >> $GITHUB_ENV"
+                f"echo TODOON_TODOS_FOUND={str(self.number_of_todo)} >> \"$GITHUB_ENV\""
             )
             os.system(
-                f"echo TODOON_FIXMES_FOUND={str(self.number_of_fixme)} >> $GITHUB_ENV"
+                f"echo TODOON_FIXMES_FOUND={str(self.number_of_fixme)} >> \"$GITHUB_ENV\""
             )
             os.system(
-                f"echo TODOON_ENCODING_ERRORS={str(self.number_of_encoding_failures)} >> $GITHUB_ENV"
+                f"echo TODOON_ENCODING_ERRORS={str(self.number_of_encoding_failures)} >> \"$GITHUB_ENV\""
             )
             os.system(
-                f"echo TODOON_ISSUES_GENERATED={str(self.number_of_issues)} >> $GITHUB_ENV"
+                f"echo TODOON_ISSUES_GENERATED={str(self.number_of_issues)} >> \"$GITHUB_ENV\""
             )
             os.system(
-                f"echo TODOON_DUPLICATE_ISSUES_AVOIDED={str(self.number_of_duplicate_issues_avoided)} >> $GITHUB_ENV"
+                f"echo TODOON_DUPLICATE_ISSUES_AVOIDED={str(self.number_of_duplicate_issues_avoided)} >> \"$GITHUB_ENV\""
             )
             os.system(
-                f"echo TODOON_DUPLICATE_CLOSED_ISSUES={str(self.number_of_closed_issues)} >> $GITHUB_ENV"
+                f"echo TODOON_DUPLICATE_CLOSED_ISSUES={str(self.number_of_closed_issues)} >> \"$GITHUB_ENV\""
             )
 
     def generate_summary_message(self):

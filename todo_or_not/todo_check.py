@@ -461,7 +461,7 @@ def todoon(
 
         if todoon_created_issues is not False:
             for issue in todoon_created_issues:
-                existing_issues_hashed[util.sha1_hash(issue["title"])] = issue["state"]
+                existing_issues_hashed[util.str_hash(issue["title"])] = issue["state"]
         else:
             util.print_wrap(log_level=log_level,
                             msg=f"{loc('error_gh_issues_read_failed')}", file=sys.stderr
@@ -513,7 +513,7 @@ def todoon(
                 # Special handling for the ISSUE mode
 
                 if not print_mode:
-                    _this_hit_hashed = util.sha1_hash(hit.get_title())
+                    _this_hit_hashed = util.str_hash(hit.get_title())
 
                     # Check if the app already created this hit's title in open AND closed issues
                     if _this_hit_hashed not in existing_issues_hashed:
@@ -622,6 +622,9 @@ def todo_ignore_util(
                                 output.append(line)
                 except FileNotFoundError:
                     print(loc("warning_file_does_not_exist"), _path, file=sys.stderr)
+                except PermissionError:
+                    #TODO NEW Localization 'warning_file_permission_error' | "WARNING: File permission error" #localization
+                    print(loc("warning_file_permission_error"), _path, file=sys.stderr)
                 except IsADirectoryError:
                     print(loc("warning_is_a_directory"), _path, file=sys.stderr)
 

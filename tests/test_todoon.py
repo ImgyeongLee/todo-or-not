@@ -182,7 +182,7 @@ class TestTodoon(unittest.TestCase):
         env = [
             ("GITHUB_REPOSITORY", "Start-Out/todo-or-not"),
             ("GITHUB_REF_NAME", "branch"),
-            ("GITHUB_TRIGGERING_ACTOR", "pytest"),
+            ("GITHUB_TRIGGERING_ACTOR", "trentonyo"),
             ("MAXIMUM_ISSUES_GENERATED", "1"),
         ]
         self._environment_up("no_todos", env_variables=env)
@@ -196,7 +196,7 @@ class TestTodoon(unittest.TestCase):
         env = [
             ("GITHUB_REPOSITORY", "github/gitignore"),
             ("GITHUB_REF_NAME", "branch"),
-            ("GITHUB_TRIGGERING_ACTOR", "pytest"),
+            ("GITHUB_TRIGGERING_ACTOR", "trentonyo"),
         ]
         self._environment_up("specific_files", env_variables=env, disable_debug=True)
 
@@ -211,7 +211,7 @@ class TestTodoon(unittest.TestCase):
         env = [
             ("GITHUB_REPOSITORY", "Start-Out/todo-or-not"),
             ("GITHUB_REF_NAME", "branch"),
-            ("GITHUB_TRIGGERING_ACTOR", "pytest"),
+            ("GITHUB_TRIGGERING_ACTOR", "trentonyo"),
             ("MAXIMUM_ISSUES_GENERATED", "1"),
         ]
         self._environment_up("specific_files", env_variables=env)
@@ -225,7 +225,7 @@ class TestTodoon(unittest.TestCase):
         env = [
             ("GITHUB_REPOSITORY", "Start-Out/todo-or-not"),
             ("GITHUB_REF_NAME", "branch"),
-            ("GITHUB_TRIGGERING_ACTOR", "pytest"),
+            ("GITHUB_TRIGGERING_ACTOR", "trentonyo"),
         ]
         self._environment_up("closed_issue", env_variables=env, disable_debug=True)
 
@@ -238,7 +238,7 @@ class TestTodoon(unittest.TestCase):
         env = [
             ("GITHUB_REPOSITORY", "Start-Out/todo-or-not"),
             ("GITHUB_REF_NAME", "branch"),
-            ("GITHUB_TRIGGERING_ACTOR", "pytest"),
+            ("GITHUB_TRIGGERING_ACTOR", "trentonyo"),
         ]
         self._environment_up("no_todos", env_variables=env, disable_debug=True)
 
@@ -250,7 +250,7 @@ class TestTodoon(unittest.TestCase):
         env = [
             ("GITHUB_REPOSITORY", "Start-Out/todo-or-not"),
             ("GITHUB_REF_NAME", "branch"),
-            ("GITHUB_TRIGGERING_ACTOR", "pytest"),
+            ("GITHUB_TRIGGERING_ACTOR", "trentonyo"),
         ]
         self._environment_up("closed_issue", env_variables=env, disable_debug=True)
 
@@ -277,7 +277,7 @@ class TestTodoon(unittest.TestCase):
         env = [
             ("GITHUB_REPOSITORY", "Start-Out/todo-or-not"),
             ("GITHUB_REF_NAME", "branch"),
-            ("GITHUB_TRIGGERING_ACTOR", "pytest"),
+            ("GITHUB_TRIGGERING_ACTOR", "trentonyo"),
         ]
         self._environment_up("singular", env_variables=env, disable_debug=True)
 
@@ -296,18 +296,19 @@ class TestTodoon(unittest.TestCase):
         env = [
             ("GITHUB_REPOSITORY", "Start-Out/todo-or-not"),
             ("GITHUB_REF_NAME", "branch"),
-            ("GITHUB_TRIGGERING_ACTOR", "pytest"),
+            ("GITHUB_TRIGGERING_ACTOR", "trentonyo"),
         ]
-        self._environment_up("plural", env_variables=env, disable_debug=True)
+        # Debug remains enabled so that issues are not accidentally created
+        self._environment_up("plural", env_variables=env, disable_debug=False)
 
         td.todoon(print_mode=False, silent=True)
 
-        # number of issues
-        assert os.environ["TODOON_ISSUES_GENERATED"] == "0"
+        # number of issues should be 4 (though not actual created)
+        assert os.environ["TODOON_ISSUES_GENERATED"] == "4"
         # number of duplicate issues
-        assert os.environ["TODOON_DUPLICATE_ISSUES_AVOIDED"] == "3"
+        assert os.environ["TODOON_DUPLICATE_ISSUES_AVOIDED"] == "0"
         # number of closed issues
-        assert os.environ["TODOON_DUPLICATE_CLOSED_ISSUES"] == "1"
+        assert os.environ["TODOON_DUPLICATE_CLOSED_ISSUES"] == "0"
 
         self._environment_down()
 
@@ -342,9 +343,10 @@ class TestTodoon(unittest.TestCase):
 
         td.todoon(push_github_env_vars=True)
 
-        assert os.path.isfile("github_environment.txt")
+        output_file_name = "github_environment.txt" if os.name == 'posix' else "$GITHUB_ENV"
 
-        os.remove("github_environment.txt")
+        assert os.path.isfile(output_file_name)
+        os.remove(output_file_name)
 
         self._environment_down()
 

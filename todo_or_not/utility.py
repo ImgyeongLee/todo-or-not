@@ -91,8 +91,8 @@ def get_os(log_level=LOG_LEVEL_NORMAL):
     return _os
 
 
-def sha1_hash(hit_str: str):
-    m = hashlib.sha1()
+def str_hash(hit_str: str):
+    m = hashlib.sha1(usedforsecurity=False)
     m.update(bytes(hit_str, "utf-8"))
     return m.hexdigest()
 
