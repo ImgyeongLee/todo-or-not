@@ -217,6 +217,7 @@ class TestTodoignoreUtil(unittest.TestCase):
         os.remove(".todo-ignore")
 
         # Run util
+        # TODO there is a PermissionError here
         td.todo_ignore_util(["res"], source_is_text=False)
 
         # Tear down
