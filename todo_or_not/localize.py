@@ -28,6 +28,7 @@ LOCALIZE = {
         "error_no_env": "ERROR: Missing required environment variable",
         "error_gh_issues_read_failed": "ERROR: todoon failed to read from GitHub issues",
         "error_gh_issues_create_failed": "ERROR: todoon failed to create a new GitHub issue",
+        "error_subprocess_api_request_failed": "ERROR: In a subprocess, API request failed",
         "error_todo_ignore_not_found": "ERROR: .todo-ignore NOT FOUND! use -i to copy another .ignore OR --force to run without a .todo-ignore (NOT RECOMMENDED)",
         "error_todo_ignore_not_supported": f"ERROR: .todo-ignore uses unsupported encoding or doesn't exist! Supported encodings: {SUPPORTED_ENCODINGS_TODOIGNORE}",
         "error_exceeded_maximum_issues": "ERROR: Exceeded maximum number of issues for this run, exiting now",

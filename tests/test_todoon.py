@@ -279,16 +279,17 @@ class TestTodoon(unittest.TestCase):
             ("GITHUB_REF_NAME", "branch"),
             ("GITHUB_TRIGGERING_ACTOR", "trentonyo"),
         ]
-        self._environment_up("singular", env_variables=env, disable_debug=True)
+        # Debug is enabled so that additional issues are not created
+        self._environment_up("singular", env_variables=env, disable_debug=False)
 
-        td.todoon(print_mode=False, silent=True)
+        td.todoon(print_mode=False, silent=True, verbose=True)
 
         # number of issues
-        assert os.environ["TODOON_ISSUES_GENERATED"] == "0"
+        assert os.environ["TODOON_ISSUES_GENERATED"] == "2"
         # number of duplicate issues
-        assert os.environ["TODOON_DUPLICATE_ISSUES_AVOIDED"] == "1"
+        assert os.environ["TODOON_DUPLICATE_ISSUES_AVOIDED"] == "0"
         # number of closed issues
-        assert os.environ["TODOON_DUPLICATE_CLOSED_ISSUES"] == "1"
+        assert os.environ["TODOON_DUPLICATE_CLOSED_ISSUES"] == "0"
 
         self._environment_down()
 
