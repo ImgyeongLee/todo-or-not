@@ -163,20 +163,24 @@ def get_bot_submitted_issues(
         f"/repos/{owner}/{repo}/issues?creator=app%2Ftodo-or-not&state=all",
     ]
 
-    if not (util.get_is_debug() or _test):
+    # If in debug or test mode, return an empty list
+    if util.get_is_debug() or _test:
+        util.print_wrap(log_level=log_level, msg=str(query), file=sys.stdout)
+        return []
+    # Otherwise, run the query and parse the returned json
+    else:
         try:
             response = subprocess.check_output(query)
         except subprocess.CalledProcessError as e:
-            util.print_wrap(log_level=log_level, msg=str(e), file=sys.stderr)
+            #TODO NEW Localization 'error_subprocess_api_request_failed' | "ERROR: In a subprocess, API request failed" #localization
+            msg = f"{loc('error_subprocess_api_request_failed')} {str(e)}"
+            util.print_wrap(log_level=log_level, msg=msg, file=sys.stderr)
             return False
 
         _str = response.decode("utf-8")
         _str.replace('"', '\\"')
 
         return json.loads(_str)
-    else:
-        util.print_wrap(log_level=log_level, msg=str(query), file=sys.stderr)
-        return False
 
 
 def get_encoding(

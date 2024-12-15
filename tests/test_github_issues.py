@@ -119,7 +119,7 @@ class TestDebugIssueFeatures(unittest.TestCase):
         assert result is False
 
     def test_bot_submitted_issues_collected(self):
-        assert self.bot_submitted_issues is False
+        assert self.bot_submitted_issues == []
 
 
 class TestLiveIssueFeatures(unittest.TestCase):
